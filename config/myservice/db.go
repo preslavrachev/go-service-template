@@ -13,7 +13,6 @@ func SetUpDB() *gorm.DB {
 		log.Fatalf("DB could not be set up. Reason: %v", err)
 	}
 
-
 	db.AutoMigrate(&persistence.Todo{})
 
 	return db
