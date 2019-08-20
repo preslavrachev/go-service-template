@@ -1,4 +1,4 @@
-package myservice
+package webservice
 
 import (
 	"github.com/jinzhu/gorm"

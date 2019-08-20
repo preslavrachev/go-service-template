@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi"
 	"github.com/preslavrachev/go-service-template/config"
-	"github.com/preslavrachev/go-service-template/config/myservice"
+	"github.com/preslavrachev/go-service-template/config/webservice"
 	http2 "github.com/preslavrachev/go-service-template/http"
 	"github.com/preslavrachev/go-service-template/persistence"
 	"log"
@@ -12,12 +12,12 @@ import (
 
 func main() {
 
-	db := &persistence.DB{DB: myservice.SetUpDB()}
+	db := &persistence.DB{DB: webservice.SetUpDB()}
 	appContext := &config.AppContext{
 		Server: http2.NewServer(chi.NewRouter()),
 		DB:     db,
 	}
-	myservice.SetUpRoutes(appContext)
+	webservice.SetUpRoutes(appContext)
 
 	log.Fatal(http.ListenAndServe(":8080", appContext.Server.Router()))
 }
