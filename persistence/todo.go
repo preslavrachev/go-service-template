@@ -10,13 +10,17 @@ type Todo struct {
 	Name string
 }
 
-type DB struct {
-	*gorm.DB
+type TodoStore struct {
+	db IGormDB
 }
 
-func (db *DB) FindAllTodos() []*myservice.Todo {
+func NewTodoStore(db IGormDB) *TodoStore {
+	return &TodoStore{db: db}
+}
+
+func (ts *TodoStore) FindAllTodos() []*myservice.Todo {
 	var todos []*Todo
-	db.Find(&todos)
+	ts.db.Find(&todos)
 
 	var results []*myservice.Todo
 	for _, todo := range todos {
@@ -28,10 +32,10 @@ func (db *DB) FindAllTodos() []*myservice.Todo {
 	return results
 }
 
-func (db *DB) SaveTodo(t *myservice.Todo) {
+func (ts *TodoStore) SaveTodo(t *myservice.Todo) {
 	todoEntity := &Todo{
 		Name: t.Name,
 	}
 
-	db.Save(todoEntity)
+	ts.db.Save(todoEntity)
 }

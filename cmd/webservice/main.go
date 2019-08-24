@@ -1,21 +1,22 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/go-chi/chi"
 	"github.com/preslavrachev/go-service-template/config"
 	"github.com/preslavrachev/go-service-template/config/webservice"
 	http2 "github.com/preslavrachev/go-service-template/http"
 	"github.com/preslavrachev/go-service-template/persistence"
-	"log"
-	"net/http"
 )
 
 func main() {
 
-	db := &persistence.DB{DB: webservice.SetUpDB()}
+	db := persistence.NewTodoStore(persistence.Wrap(webservice.SetUpDB()))
 	appContext := &config.AppContext{
-		Server: http2.NewServer(chi.NewRouter()),
-		DB:     db,
+		Server:    http2.NewServer(chi.NewRouter()),
+		TodoStore: db,
 	}
 	webservice.SetUpRoutes(appContext)
 

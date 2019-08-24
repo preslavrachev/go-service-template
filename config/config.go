@@ -6,6 +6,6 @@ import (
 )
 
 type AppContext struct {
-	Server *http.Server
-	DB     *persistence.DB
+	Server    *http.Server
+	TodoStore *persistence.TodoStore
 }

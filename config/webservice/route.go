@@ -14,11 +14,11 @@ func SetUpRoutes(appContext *config.AppContext) {
 }
 
 func setUpTodoAllGet(r chi.Router, ctx *config.AppContext) {
-	todosHandler := &logic.FindAllTodosHandler{TodoHandler: ctx.DB}
+	todosHandler := &logic.FindAllTodosHandler{TodoHandler: ctx.TodoStore}
 	r.Get("/", ctx.Server.HandleTodoListGet(todosHandler))
 }
 
 func setUpTodoPost(r chi.Router, ctx *config.AppContext) {
-	saveAction := &logic.SaveTodoHandler{TodoHandler: ctx.DB}
+	saveAction := &logic.SaveTodoHandler{TodoHandler: ctx.TodoStore}
 	r.Post("/", ctx.Server.HandleTodoPost(saveAction))
 }
